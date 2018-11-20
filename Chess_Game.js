@@ -236,36 +236,45 @@ let InitializePieces = function(Color) {
     };
 }
 
-let createBoard = function() {
-    let chessBoard = [];
+function createBoard() {
+    let table = document.getElementById('chessboard');
+    let chessBoard = new Array();
     for ( let i = 0; i < 8; i++ ) {
+        let rows =table.insertRow()
+        let ChessFile = new Array();
         for ( let j = 0; j < 8; j++ ) {
+            let cell =rows.insertCell()
             if ( i % 2 === 0 ) {
                 if ( j % 2 === 0 ) {
-                    chessBoard.push({
+                    ChessFile.push({
                         "color" : "black",
                         "position" : chess_Rank[j] + chess_File[i]
                     });
+                    cell.style.backgroundColor="grey";
                 } else {
-                    chessBoard.push({
+                    ChessFile.push({
                         "color" : "white",
                         "position" : chess_Rank[j] + chess_File[i]
                     });
+                    cell.style.backgroundColor="white";
                 }
             } else {
                 if ( j % 2 === 1 ) {
-                    chessBoard.push({
+                    ChessFile.push({
                         "color" : "black",
                         "position" : chess_Rank[j] + chess_File[i]
                     });
+                    cell.style.backgroundColor="grey";
                 } else {
-                    chessBoard.push({
+                    ChessFile.push({
                         "color" : "white",
                         "position" : chess_Rank[j] + chess_File[i]
                     });
+                    cell.style.backgroundColor="white";
                 }
             }
         }
+        chessBoard.push(ChessFile);
     }
 
     return chessBoard;
@@ -281,6 +290,7 @@ let InitializeBoard = function() {
         blackPieces };
 }
 console.dir(InitializeBoard());
+
 
  
 
