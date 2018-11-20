@@ -2,7 +2,7 @@
 
 "use strict";
 class ChessPiece {
-    constructor(pieceColor,pieceName,piecePoint,pieceImage)   {
+    constructor(pieceColor, pieceName, piecePoint, pieceImage) {
         this.pieceColor = pieceColor;
         this.pieceName = pieceName;
         this.piecePoint = piecePoint;
@@ -34,8 +34,8 @@ const chessPieceImage = {
     "King": "KingImg"
 };
 
-let chessPieceImageCreation = function(PieceName, PieceColor) {
-    return  chessPieceColor[PieceColor] + chessPieceImage[PieceName];
+let chessPieceImageCreation = function (PieceName, PieceColor) {
+    return chessPieceColor[PieceColor] + chessPieceImage[PieceName];
 }
 //console.log(typeof chessPieceImageCreation);
 
@@ -53,7 +53,7 @@ const chess_File = "12345678";
 const chess_Rank = "abcdefgh";
 
 class chess_Knight extends ChessPiece {
-    constructor(Color)   {
+    constructor(Color) {
         super(Color,
             chessPieceName["Knight"],
             chessPiecePoints.KNIGHT,
@@ -62,7 +62,7 @@ class chess_Knight extends ChessPiece {
 }
 
 class chess_Rook extends ChessPiece {
-    constructor(Color)   {
+    constructor(Color) {
         super(Color,
             chessPieceName["Rook"],
             chessPiecePoints.ROOK,
@@ -71,7 +71,7 @@ class chess_Rook extends ChessPiece {
 }
 
 class chess_Bishop extends ChessPiece {
-    constructor(Color)   {
+    constructor(Color) {
         super(Color,
             chessPieceName["Bishop"],
             chessPiecePoints.BISHOP,
@@ -80,7 +80,7 @@ class chess_Bishop extends ChessPiece {
 }
 
 class chess_Queen extends ChessPiece {
-    constructor(Color)   {
+    constructor(Color) {
         super(Color,
             chessPieceName["Queen"],
             chessPiecePoints.QUEEN,
@@ -89,7 +89,7 @@ class chess_Queen extends ChessPiece {
 }
 
 class chess_King extends ChessPiece {
-    constructor(Color)   {
+    constructor(Color) {
         super(Color,
             chessPieceName["King"],
             chessPiecePoints.KING,
@@ -98,7 +98,7 @@ class chess_King extends ChessPiece {
 }
 
 class chess_Pawn extends ChessPiece {
-    constructor(Color)   {
+    constructor(Color) {
         super(Color,
             chessPieceName["Pawn"],
             chessPiecePoints.PAWN,
@@ -106,7 +106,7 @@ class chess_Pawn extends ChessPiece {
     }
 }
 
-let createKnight = function(Color) {
+let createKnight = function (Color) {
     if (Color === "White") {
         let whiteKnight1 = new chess_Knight(Color);
         let whiteKnight2 = new chess_Knight(Color);
@@ -128,7 +128,7 @@ let createKnight = function(Color) {
     }
 }
 
-let createBishop = function(Color) {
+let createBishop = function (Color) {
     if (Color === "White") {
         let whiteBishop1 = new chess_Bishop(Color);
         let whiteBishop2 = new chess_Bishop(Color);
@@ -150,7 +150,7 @@ let createBishop = function(Color) {
     }
 }
 
-let createRook = function(Color) {
+let createRook = function (Color) {
     if (Color === "White") {
         let whiteRook1 = new chess_Rook(Color);
         let whiteRook2 = new chess_Rook(Color);
@@ -174,7 +174,7 @@ let createRook = function(Color) {
     }
 }
 
-let createPawn = function(Color) {
+let createPawn = function (Color) {
     if (Color === "White") {
         let whitePawnArray = new Array();
         for (let i = 0; i < 8; i++) {
@@ -197,7 +197,7 @@ let createPawn = function(Color) {
 
 }
 
-let createQueen = function(Color){
+let createQueen = function (Color) {
     let queen = new chess_Queen(Color);
     if (Color === "White") {
         queen.initialPosition = chess_Rank[3] + chess_File[0];
@@ -208,7 +208,7 @@ let createQueen = function(Color){
     return queen;
 }
 
-let createKing = function(Color){
+let createKing = function (Color) {
     let king = new chess_King(Color);
     if (Color === "White") {
         king.initialPosition = chess_Rank[4] + chess_File[0];
@@ -219,7 +219,7 @@ let createKing = function(Color){
     return king;
 }
 
-let InitializePieces = function(Color) {
+let InitializePieces = function (Color) {
     let queen = createQueen(Color);
     let king = createKing(Color);
     let pawn = createPawn(Color);
@@ -236,61 +236,70 @@ let InitializePieces = function(Color) {
     };
 }
 
-function createBoard() {
-    let table = document.getElementById('chessboard');
-    let chessBoard = new Array();
-    for ( let i = 0; i < 8; i++ ) {
-        let rows =table.insertRow()
-        let ChessFile = new Array();
-        for ( let j = 0; j < 8; j++ ) {
-            let cell =rows.insertCell()
-            if ( i % 2 === 0 ) {
-                if ( j % 2 === 0 ) {
-                    ChessFile.push({
-                        "color" : "black",
-                        "position" : chess_Rank[j] + chess_File[i]
-                    });
-                    cell.style.backgroundColor="grey";
+let createBoard = function () {
+    if(document.getElementById("chessboard") != null){
+        let table = document.getElementById("chessboard");
+        let chessBoard = new Array();
+        for (let i = 0; i < 8; i++) {
+            let ChessFile = new Array();
+            let row = table.insertRow(i);
+            for (let j = 0; j < 8; j++) {
+                let cell = row.insertCell(j);
+                if (i % 2 === 0) {
+                    if (j % 2 === 0) {
+                        ChessFile.push({
+                            "color": "black",
+                            "position": chess_Rank[j] + chess_File[i]
+                        });
+                        cell.style.backgroundColor = "grey";
+                    } else {
+                        ChessFile.push({
+                            "color": "white",
+                            "position": chess_Rank[j] + chess_File[i]
+                        });
+                        cell.style.backgroundColor = "white";
+                    }
                 } else {
-                    ChessFile.push({
-                        "color" : "white",
-                        "position" : chess_Rank[j] + chess_File[i]
-                    });
-                    cell.style.backgroundColor="white";
-                }
-            } else {
-                if ( j % 2 === 1 ) {
-                    ChessFile.push({
-                        "color" : "black",
-                        "position" : chess_Rank[j] + chess_File[i]
-                    });
-                    cell.style.backgroundColor="grey";
-                } else {
-                    ChessFile.push({
-                        "color" : "white",
-                        "position" : chess_Rank[j] + chess_File[i]
-                    });
-                    cell.style.backgroundColor="white";
+                    if (j % 2 === 1) {
+                        ChessFile.push({
+                            "color": "black",
+                            "position": chess_Rank[j] + chess_File[i]
+                        });
+                        cell.style.backgroundColor = "grey";
+                    } else {
+                        ChessFile.push({
+                            "color": "white",
+                            "position": chess_Rank[j] + chess_File[i]
+                        });
+                        cell.style.backgroundColor = "white";
+                    }
                 }
             }
+            chessBoard.push(ChessFile);
         }
-        chessBoard.push(ChessFile);
+        return chessBoard;
     }
-
-    return chessBoard;
 }
 
-let InitializeBoard = function() {
+let InitializeBoard = function () {
     let whitePieces = InitializePieces("White");
     let blackPieces = InitializePieces("Black");
     let chessBoard = createBoard();
 
-    return { chessBoard,
+    //todo
+    //initialize pieces on chess board
+     
+
+    //movements on chess board
+
+    return {
+        chessBoard,
         whitePieces,
-        blackPieces };
+        blackPieces
+    };
 }
 console.dir(InitializeBoard());
 
 
- 
+
 
