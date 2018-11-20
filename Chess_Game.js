@@ -1,5 +1,5 @@
 
-<script>
+
 "use strict";
 class ChessPiece {
     constructor(pieceColor,pieceName,piecePoint,pieceImage)   {
@@ -282,5 +282,5 @@ let InitializeBoard = function() {
 }
 console.dir(InitializeBoard());
 
- </script> 
+ 
 
