@@ -12,30 +12,31 @@ class ChessPiece {
 };
 
 const chessPieceColor = {
-    "White": "White",
-    "Black": "Black"
+    White: "White",
+    Black: "Black"
 };
 
 const chessPieceName = {
-    "Pawn": "Pawn",
-    "Rook": "Rook",
-    "Knight": "Knight",
-    "Bishop": "Bishop",
-    "Queen": "Queen",
-    "King": "King"
+    Pawn: "Pawn",
+    Rook: "Rook",
+    Knight: "Knight",
+    Bishop: "Bishop",
+    Queen: "Queen",
+    King: "King"
 };
 
 const chessPieceImage = {
-    "Pawn": "PawnImg",
-    "Rook": "RookImg",
-    "Knight": "KnightImg",
-    "Bishop": "BishopImg",
-    "Queen": "QueenImg",
-    "King": "KingImg"
+    Pawn: "Pawn.svg",
+    Rook: "Rook.svg",
+    Knight: "Knight.svg",
+    Bishop: "Bishop.svg",
+    Queen: "Queen.svg",
+    King: "King.svg"
 };
 
 let chessPieceImageCreation = function (PieceName, PieceColor) {
-    return chessPieceColor[PieceColor] + chessPieceImage[PieceName];
+    let sourceDir = "./Piece_Icons/";
+    return sourceDir + chessPieceColor[PieceColor] + chessPieceImage[PieceName];
 }
 //console.log(typeof chessPieceImageCreation);
 
@@ -48,9 +49,9 @@ const chessPiecePoints = {
     KING: "Most_important"
 };
 
-const chess_File = "12345678";
+const chess_File = "01234567";
 
-const chess_Rank = "abcdefgh";
+const chess_Rank = "01234567";
 
 class chess_Knight extends ChessPiece {
     constructor(Color) {
@@ -237,69 +238,92 @@ let InitializePieces = function (Color) {
 }
 
 let createBoard = function () {
-    if(document.getElementById("chessboard") != null){
-        let table = document.getElementById("chessboard");
-        let chessBoard = new Array();
-        for (let i = 0; i < 8; i++) {
-            let ChessFile = new Array();
-            let row = table.insertRow(i);
-            for (let j = 0; j < 8; j++) {
-                let cell = row.insertCell(j);
-                if (i % 2 === 0) {
-                    if (j % 2 === 0) {
-                        ChessFile.push({
-                            "color": "black",
-                            "position": chess_Rank[j] + chess_File[i]
-                        });
-                        cell.style.backgroundColor = "grey";
-                    } else {
-                        ChessFile.push({
-                            "color": "white",
-                            "position": chess_Rank[j] + chess_File[i]
-                        });
-                        cell.style.backgroundColor = "white";
-                    }
+    let chessBoard = new Array();
+    for (let i = 0; i < 8; i++) {
+        let ChessFile = new Array();
+        for (let j = 0; j < 8; j++) {
+            if (i % 2 === 0) {
+                if (j % 2 === 0) {
+                    ChessFile.push({
+                        "color": chessPieceColor.Black,
+                        "position": chess_Rank[j] + chess_File[i],
+
+                    });
                 } else {
-                    if (j % 2 === 1) {
-                        ChessFile.push({
-                            "color": "black",
-                            "position": chess_Rank[j] + chess_File[i]
-                        });
-                        cell.style.backgroundColor = "grey";
-                    } else {
-                        ChessFile.push({
-                            "color": "white",
-                            "position": chess_Rank[j] + chess_File[i]
-                        });
-                        cell.style.backgroundColor = "white";
-                    }
+                    ChessFile.push({
+                        "color": chessPieceColor.White,
+                        "position": chess_Rank[j] + chess_File[i],
+                        //"image":
+                    });
+                }
+            } else {
+                if (j % 2 === 1) {
+                    ChessFile.push({
+                        "color": chessPieceColor.Black,
+                        "position": chess_Rank[j] + chess_File[i]
+                    });
+                } else {
+                    ChessFile.push({
+                        "color": chessPieceColor.White,
+                        "position": chess_Rank[j] + chess_File[i]
+                    });
                 }
             }
-            chessBoard.push(ChessFile);
         }
-        return chessBoard;
+        chessBoard.push(ChessFile);
+    }
+    return chessBoard;
+}
+
+let chessDisplay = function (whitePieces, blackPieces) {
+    if (document.getElementById("chessboard") != null) {
+        let table = document.getElementById("chessboard");
+
+        for (var i = 0; i < 8; i++) {
+            let rows = table.insertRow();
+            for (let j = 0; j < 8; j++) {
+                let cell = rows.insertCell();
+                if ((i + j) % 2) {
+                    cell.style.backgroundColor = 'grey';
+                    var img = document.createElement(img);
+                    img.src = getImagePathFromObj(i, j, whitePieces, blackPieces);;
+                    cell.appendChild(img)
+                }
+                else {
+                    cell.style.backgroundColor = 'white';
+                    var img = document.createElement(img);
+                    img.src = getImagePathFromObj(i, j, whitePieces, blackPieces);;
+                    cell.appendChild(img)
+                }
+            }
+            let chessBoard = createBoard();
+            return chessBoard;
+        }
+    }
+}
+function getImagePathFromObj(i, j, whitePieces, blackPieces) {
+    for (const key in whitePieces) {
+        if (whitePieces.hasOwnProperty(key)) {
+            console.log(key);
+        }
     }
 }
 
 let InitializeBoard = function () {
-    let whitePieces = InitializePieces("White");
-    let blackPieces = InitializePieces("Black");
-    let chessBoard = createBoard();
+    let whitePieces = InitializePieces(chessPieceColor.White);
+    let blackPieces = InitializePieces(chessPieceColor.Black);
+    let finalBoard = createBoard();
+    chessDisplay(whitePieces, blackPieces);
+
 
     //todo
     //initialize pieces on chess board
-     
+
 
     //movements on chess board
 
     return {
-        chessBoard,
-        whitePieces,
-        blackPieces
+        finalBoard,
     };
 }
 console.dir(InitializeBoard());
-
-
-
-
